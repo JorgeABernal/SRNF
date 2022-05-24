@@ -19,101 +19,166 @@ public class GameManager : MonoBehaviour{
                                 {0,1,1,1,0}};
 
     int toque = 0;
+    bool ronda;
+    bool unoAtaca;
+    int sig1x,sig1y,sig2x,sig2y;
+
     // Start is called before the first frame update
     void Start()
     {
         pos1 = 1;
         pos2 = 5;
+        ronda = true;
+        unoAtaca = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.touchCount>0 && Input.GetTouch(0).phase == TouchPhase.Ended){
-            toque++;
-            move();
+        if(ronda == false){
+            round();
+        }else{
+            if(Input.touchCount>0 && Input.GetTouch(0).phase == TouchPhase.Ended){
+                toque++;
+                move();
+                if(toque == 2){
+                    ronda = false;
+                    toque = 0;
+                }
+            }
         }
     }
 
     void move(){
-        if(toque % 2 == 1){
-            touch = Input.GetTouch(0);
-            Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
-            if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y < 5 && touchPos.y > 2){ // bloque2
-                avanzar(pos1,2,player,1);
-            }else if(touchPos.x < -3 && touchPos.x > -5 && touchPos.y > -2 && touchPos.y < 2){ // bloque1
-                avanzar(pos1,1,player,1);
-            }else if(touchPos.x < 2 && touchPos.x > -2 && touchPos.y < 2 && touchPos.y > -2){ //bloque3
-                avanzar(pos1,3,player,1);
-            }else if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y > -5 && touchPos.y < -3){ //bloque4
-                avanzar(pos1,4,player,1);
-            }else if(touchPos.x > 3 && touchPos.x < 5 && touchPos.y > -2 && touchPos.y < 2){ // bloque5
-                avanzar(pos1,5,player,1);
-            }else{
-                toque--;
+        if(unoAtaca == true){
+            if(toque % 2 == 1){
+                touch = Input.GetTouch(0);
+                Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y < 5 && touchPos.y > 2){ // bloque2
+                    avanzar(pos1,2,player,1);
+                }else if(touchPos.x < -3 && touchPos.x > -5 && touchPos.y > -2 && touchPos.y < 2){ // bloque1
+                    avanzar(pos1,1,player,1);
+                }else if(touchPos.x < 2 && touchPos.x > -2 && touchPos.y < 2 && touchPos.y > -2){ //bloque3
+                    avanzar(pos1,3,player,1);
+                }else if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y > -5 && touchPos.y < -3){ //bloque4
+                    avanzar(pos1,4,player,1);
+                }else if(touchPos.x > 3 && touchPos.x < 5 && touchPos.y > -2 && touchPos.y < 2){ // bloque5
+                    avanzar(pos1,5,player,1);
+                }else{
+                    toque--;
+                } 
+            }else if(toque % 2 == 0){
+                touch2 = Input.GetTouch(0);
+                Vector2 touchPos2 = Camera.main.ScreenToWorldPoint(touch2.position);
+                if(touchPos2.x > -2 && touchPos2.x < 2 && touchPos2.y < 5 && touchPos2.y > 2){ // bloque2
+                    avanzar(pos2,2,player2,2);
+                }else if(touchPos2.x < -3 && touchPos2.x > -5 && touchPos2.y > -2 && touchPos2.y < 2){ // bloque1
+                    avanzar(pos2,1,player2,2);
+                }else if(touchPos2.x < 2 && touchPos2.x > -2 && touchPos2.y < 2 && touchPos2.y > -2){ //bloque3
+                    avanzar(pos2,3,player2,2);
+                }else if(touchPos2.x > -2 && touchPos2.x < 2 && touchPos2.y > -5 && touchPos2.y < -2){ //bloque4
+                    avanzar(pos2,4,player2,2);
+                }else if(touchPos2.x > 3 && touchPos2.x < 5 && touchPos2.y > -2 && touchPos2.y < 2){ // bloque5
+                    avanzar(pos2,5,player2,2);
+                }else{
+                    toque--;
+                }
             }
-            
-        }else if(toque % 2 == 0){
-            touch2 = Input.GetTouch(0);
-            Vector2 touchPos2 = Camera.main.ScreenToWorldPoint(touch2.position);
-            if(touchPos2.x > -2 && touchPos2.x < 2 && touchPos2.y < 5 && touchPos2.y > 2){ // bloque2
-                avanzar(pos2,2,player2,2);
-            }else if(touchPos2.x < -3 && touchPos2.x > -5 && touchPos2.y > -2 && touchPos2.y < 2){ // bloque1
-                avanzar(pos2,1,player2,2);
-            }else if(touchPos2.x < 2 && touchPos2.x > -2 && touchPos2.y < 2 && touchPos2.y > -2){ //bloque3
-                avanzar(pos2,3,player2,2);
-            }else if(touchPos2.x > -2 && touchPos2.x < 2 && touchPos2.y > -5 && touchPos2.y < -2){ //bloque4
-                avanzar(pos2,4,player2,2);
-            }else if(touchPos2.x > 3 && touchPos2.x < 5 && touchPos2.y > -2 && touchPos2.y < 2){ // bloque5
-                avanzar(pos2,5,player2,2);
-            }else{
-                toque--;
+        }else{
+            if(toque % 2 == 0){
+                touch = Input.GetTouch(0);
+                Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y < 5 && touchPos.y > 2){ // bloque2
+                    avanzar(pos1,2,player,1);
+                }else if(touchPos.x < -3 && touchPos.x > -5 && touchPos.y > -2 && touchPos.y < 2){ // bloque1
+                    avanzar(pos1,1,player,1);
+                }else if(touchPos.x < 2 && touchPos.x > -2 && touchPos.y < 2 && touchPos.y > -2){ //bloque3
+                    avanzar(pos1,3,player,1);
+                }else if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y > -5 && touchPos.y < -3){ //bloque4
+                    avanzar(pos1,4,player,1);
+                }else if(touchPos.x > 3 && touchPos.x < 5 && touchPos.y > -2 && touchPos.y < 2){ // bloque5
+                    avanzar(pos1,5,player,1);
+                }else{
+                    toque--;
+                } 
+            }else if(toque % 2 == 1){
+                touch2 = Input.GetTouch(0);
+                Vector2 touchPos2 = Camera.main.ScreenToWorldPoint(touch2.position);
+                if(touchPos2.x > -2 && touchPos2.x < 2 && touchPos2.y < 5 && touchPos2.y > 2){ // bloque2
+                    avanzar(pos2,2,player2,2);
+                }else if(touchPos2.x < -3 && touchPos2.x > -5 && touchPos2.y > -2 && touchPos2.y < 2){ // bloque1
+                    avanzar(pos2,1,player2,2);
+                }else if(touchPos2.x < 2 && touchPos2.x > -2 && touchPos2.y < 2 && touchPos2.y > -2){ //bloque3
+                    avanzar(pos2,3,player2,2);
+                }else if(touchPos2.x > -2 && touchPos2.x < 2 && touchPos2.y > -5 && touchPos2.y < -2){ //bloque4
+                    avanzar(pos2,4,player2,2);
+                }else if(touchPos2.x > 3 && touchPos2.x < 5 && touchPos2.y > -2 && touchPos2.y < 2){ // bloque5
+                    avanzar(pos2,5,player2,2);
+                }else{
+                    toque--;
+                }
             }
         }
+        
         
         void avanzar(int act, int sig, GameObject player,int jug){
             Debug.Log(act + " " + sig + " " + player.name + " " + jug);
             if(grafo[act-1,sig-1] == 1){
-                if(pos1-1 != sig-1 && pos2-1 != sig-1){
+                if(true){
                     switch (sig){
                         case 1:
-                            player.transform.position = new Vector2(-4,1);
                             if(jug == 1){
                                 pos1 = 1;
+                                sig1x = -4;
+                                sig1y = 1;
                             }else{
                                 pos2 = 1;
+                                sig2x = -4;
+                                sig2y = 1;
                             }
                             break;
                         case 2:
-                            player.transform.position = new Vector2(0,4);
                             if(jug == 1){
                                 pos1 = 2;
+                                sig1x = 0;
+                                sig1y = 4;
                             }else{
                                 pos2 = 2;
+                                sig2x = 0;
+                                sig2y = 4;
                             }
                             break;
                         case 3:
-                            player.transform.position = new Vector2(0,1);
                             if(jug == 1){
                                 pos1 = 3;
+                                sig1x = 0;
+                                sig1y = 1;
                             }else{
                                 pos2 = 3;
+                                sig2x = 0;
+                                sig2y = 1;
                             }
                             break;
                         case 4:
-                            player.transform.position = new Vector2(0,-2);
                             if(jug == 1){
                                 pos1 = 4;
+                                sig1x = 0;
+                                sig1y = -2;
                             }else{
                                 pos2 = 4;
+                                sig2x = 0;
+                                sig2y = -2;
                             }
                             break;
                         case 5:
-                            player.transform.position = new Vector2(4,1);
                             if(jug == 1){
                                 pos1 = 5;
+                                sig1x = 4;
+                                sig1y = 1;
                             }else{
                                 pos2 = 5;
+                                sig2x = 4;
+                                sig2y = 1;
                             }
                             break;
                     }
@@ -126,5 +191,16 @@ public class GameManager : MonoBehaviour{
                 toque--;
             }
         }
+    }
+
+    void round(){
+        player.transform.position = new Vector2(sig1x,sig1y);
+        player2.transform.position = new Vector2(sig2x,sig2y);
+        if(unoAtaca == true){
+            unoAtaca = false;
+        }else{
+            unoAtaca = true;
+        }
+        ronda = true;
     }
 }
