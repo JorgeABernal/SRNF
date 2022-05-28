@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour{
 
     public GameObject player;
     public GameObject player2;
+    public GameObject text1, text2,peleen;
 
     Touch touch,touch2;
     Vector2 touchPosition;
@@ -31,6 +32,9 @@ public class GameManager : MonoBehaviour{
         pos2 = 5;
         ronda = true;
         unoAtaca = true;
+        text2.SetActive(false);
+        text1.SetActive(false);
+        peleen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -39,6 +43,7 @@ public class GameManager : MonoBehaviour{
         if(ronda == false){
             round();
         }else{
+            
             if(Input.touchCount>0 && Input.GetTouch(0).phase == TouchPhase.Ended){
                 toque++;
                 move();
@@ -53,6 +58,7 @@ public class GameManager : MonoBehaviour{
     void move(){
         if(unoAtaca == true){
             if(toque % 2 == 1){
+                
                 touch = Input.GetTouch(0);
                 Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
                 if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y < 5 && touchPos.y > 2){ // bloque2
@@ -69,6 +75,7 @@ public class GameManager : MonoBehaviour{
                     toque--;
                 } 
             }else if(toque % 2 == 0){
+                
                 touch2 = Input.GetTouch(0);
                 Vector2 touchPos2 = Camera.main.ScreenToWorldPoint(touch2.position);
                 if(touchPos2.x > -2 && touchPos2.x < 2 && touchPos2.y < 5 && touchPos2.y > 2){ // bloque2
@@ -87,6 +94,7 @@ public class GameManager : MonoBehaviour{
             }
         }else{
             if(toque % 2 == 0){
+                
                 touch = Input.GetTouch(0);
                 Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
                 if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y < 5 && touchPos.y > 2){ // bloque2
@@ -103,6 +111,7 @@ public class GameManager : MonoBehaviour{
                     toque--;
                 } 
             }else if(toque % 2 == 1){
+               
                 touch2 = Input.GetTouch(0);
                 Vector2 touchPos2 = Camera.main.ScreenToWorldPoint(touch2.position);
                 if(touchPos2.x > -2 && touchPos2.x < 2 && touchPos2.y < 5 && touchPos2.y > 2){ // bloque2
@@ -195,6 +204,7 @@ public class GameManager : MonoBehaviour{
     }
 
     void round(){
+        
         player.transform.position = new Vector2(sig1x,sig1y);
         pos1 = posTemp1;
         player2.transform.position = new Vector2(sig2x,sig2y);
@@ -204,6 +214,7 @@ public class GameManager : MonoBehaviour{
         }else{
             unoAtaca = true;
         }
+        new WaitForSeconds(1);
         ronda = true;
     }
 }
