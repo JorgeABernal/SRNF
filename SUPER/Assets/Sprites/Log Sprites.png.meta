@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c9e5bc90ac7308445a6fb66756316953
+guid: 070bbba9ad47c124fb83be4959caf3a4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -116,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Jump_0
+      name: Log Sprites_0
       rect:
         serializedVersion: 2
-        x: 76
-        y: 78
-        width: 38
-        height: 53
+        x: 35
+        y: 32
+        width: 44
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc7dd0881be988b459f9d460c74a0e20
-      internalID: -820865621
+      spriteID: 914c8580e4c6e57428e9b5155aeda565
+      internalID: 1649458572
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_1
+      name: Log Sprites_1
       rect:
         serializedVersion: 2
-        x: 276
-        y: 78
-        width: 38
-        height: 53
+        x: 103
+        y: 32
+        width: 44
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,8 +151,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 42f02b9ad9a20234e86cd15baf51c966
-      internalID: 1525623045
+      spriteID: 997a42f95dd94db41a144d927996f687
+      internalID: -385893590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Log Sprites_2
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 32
+        width: 52
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ff51209cde19a74f8b8c15794b49590
+      internalID: -302427959
       vertices: []
       indices: 
       edges: []
@@ -168,8 +189,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Jump_1: 1525623045
-      Jump_0: -820865621
+      Log Sprites_6: 1373165390
+      Log Sprites_10: 118975478
+      Log Sprites_7: 1777350961
+      Log Sprites_3: -1576739637
+      Log Sprites_1: -385893590
+      Log Sprites_8: -1632559237
+      Log Sprites_2: -302427959
+      Log Sprites_0: 1649458572
+      Log Sprites_5: 566629732
+      Log Sprites_9: 1350888980
+      Log Sprites_11: -947638862
+      Log Sprites_4: 1257381825
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
