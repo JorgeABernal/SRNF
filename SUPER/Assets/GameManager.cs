@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour{
 
+    float moveSpeed = 10f;
+    Vector2 whereToMove;
+    Vector2 whereToMove2;
+    bool isMoving = false;
+    bool isMoving2 = false;
+
+    float previousDistanceToTouchPos, currentDistanceToTouchPos;
+    float previousDistanceToTouchPos2, currentDistanceToTouchPos2;
+
     public GameObject player;
     public GameObject player2;
     public GameObject text1, text2,peleen;
@@ -43,14 +52,47 @@ public class GameManager : MonoBehaviour{
         if(ronda == false){
             round();
         }else{
-            
+            if(isMoving){
+                currentDistanceToTouchPos = (new Vector2(sig1x,sig1y) - new Vector2(player.transform.position.x,player.transform.position.y)).magnitude;
+            }
+            if(isMoving2){
+                currentDistanceToTouchPos2 = (new Vector2(sig2x,sig2y) - new Vector2(player2.transform.position.x,player2.transform.position.y)).magnitude;
+            }
+
+
             if(Input.touchCount>0 && Input.GetTouch(0).phase == TouchPhase.Ended){
                 toque++;
                 move();
                 if(toque == 2){
+                    previousDistanceToTouchPos = 0;
+                    currentDistanceToTouchPos = 0;
+                    previousDistanceToTouchPos2 = 0;
+                    currentDistanceToTouchPos2 = 0;
+                    isMoving = true;
+                    isMoving2 = true;
+                    whereToMove = (new Vector2(sig1x,sig1y) - new Vector2(player.transform.position.x,player.transform.position.y)).normalized;
+                    player.GetComponent<Rigidbody2D>().velocity = new Vector2(whereToMove.x * moveSpeed, whereToMove.y * moveSpeed);
+                    whereToMove2 = (new Vector2(sig2x,sig2y) - new Vector2(player2.transform.position.x,player2.transform.position.y)).normalized;
+                    player2.GetComponent<Rigidbody2D>().velocity = new Vector2(whereToMove2.x * moveSpeed, whereToMove2.y * moveSpeed);
                     ronda = false;
                     toque = 0;
                 }
+            }
+                            
+            if(currentDistanceToTouchPos > previousDistanceToTouchPos){
+                isMoving = false;
+                player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;    
+            }
+            if(currentDistanceToTouchPos2 > previousDistanceToTouchPos2){
+                isMoving2 = false;
+                player2.GetComponent<Rigidbody2D>().velocity = Vector2.zero;    
+            }
+
+            if(isMoving){
+                previousDistanceToTouchPos = (new Vector2(sig1x,sig1y) - new Vector2(player.transform.position.x,player.transform.position.y)).magnitude;
+            }
+            if(isMoving2){
+                previousDistanceToTouchPos2 = (new Vector2(sig2x,sig2y) - new Vector2(player2.transform.position.x,player2.transform.position.y)).magnitude;
             }
         }
     }
@@ -58,7 +100,6 @@ public class GameManager : MonoBehaviour{
     void move(){
         if(unoAtaca == true){
             if(toque % 2 == 1){
-                
                 touch = Input.GetTouch(0);
                 Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
                 if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y < 5 && touchPos.y > 2){ // bloque2
@@ -67,7 +108,7 @@ public class GameManager : MonoBehaviour{
                     avanzar(pos1,1,player,1);
                 }else if(touchPos.x < 2 && touchPos.x > -2 && touchPos.y < 2 && touchPos.y > -2){ //bloque3
                     avanzar(pos1,3,player,1);
-                }else if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y > -5 && touchPos.y < -3){ //bloque4
+                }else if(touchPos.x > -2 && touchPos.x < 2 && touchPos.y > -5 && touchPos.y < -2){ //bloque4
                     avanzar(pos1,4,player,1);
                 }else if(touchPos.x > 3 && touchPos.x < 5 && touchPos.y > -2 && touchPos.y < 2){ // bloque5
                     avanzar(pos1,5,player,1);
@@ -203,11 +244,8 @@ public class GameManager : MonoBehaviour{
         }
     }
 
-    void round(){
-        
-        player.transform.position = new Vector2(sig1x,sig1y);
+    void round(){   
         pos1 = posTemp1;
-        player2.transform.position = new Vector2(sig2x,sig2y);
         pos2 = posTemp2;
         if(unoAtaca == true){
             unoAtaca = false;
