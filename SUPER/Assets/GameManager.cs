@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour{
 
-    float moveSpeed = 10f;
+    float moveSpeed = 5f;
     Vector2 whereToMove;
     Vector2 whereToMove2;
     bool isMoving = false;
@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour{
     public GameObject player;
     public GameObject player2;
     public GameObject text1, text2,peleen;
+    public GameObject ninja;
+
+    private Animator Animator;
 
     Touch touch,touch2;
     Vector2 touchPosition;
@@ -33,6 +36,12 @@ public class GameManager : MonoBehaviour{
     bool unoAtaca;
     int posTemp1, posTemp2;
     int sig1x,sig1y,sig2x,sig2y;
+    float distancia1;
+
+    bool arriba = false;
+    bool abajo = false;
+    bool izq = false;
+    bool der = false;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +53,12 @@ public class GameManager : MonoBehaviour{
         text2.SetActive(false);
         text1.SetActive(false);
         peleen.SetActive(false);
+        Animator = ninja.GetComponent<Animator>();
+        Animator.SetBool("Jumping",false);
+        Animator.SetBool("Falling",false);
+        Animator.SetBool("JumpUpwards",false);
+        Animator.SetBool("JumpDownwards",false);
+        Animator.SetBool("Landed",true);
     }
 
     // Update is called once per frame
@@ -69,19 +84,98 @@ public class GameManager : MonoBehaviour{
                     previousDistanceToTouchPos2 = 0;
                     currentDistanceToTouchPos2 = 0;
                     isMoving = true;
+                    Animator.SetBool("Landed",false);
                     isMoving2 = true;
                     whereToMove = (new Vector2(sig1x,sig1y) - new Vector2(player.transform.position.x,player.transform.position.y)).normalized;
+                    if(sig1y - (int) player.transform.position.y < 0){
+                        Debug.Log("ABAJO Y ");
+                        abajo = true;
+                        arriba = false;
+                    }else if(sig1y - (int) player.transform.position.y > 0){
+                        Debug.Log("ARRIBA Y ");
+                        arriba = true;
+                        abajo = false;
+                    }else{
+                        Debug.Log("IGUAL Y");
+                        arriba = false;
+                        abajo = false;
+                    }
+
+                    if(sig1x - (int) player.transform.position.x > 0){
+                        Debug.Log("DERECHA ");
+                        der = true;
+                        izq = false;
+                    }else if(sig1x - (int) player.transform.position.x < 0){
+                        Debug.Log("IZQUIERDA ");
+                        izq = true;
+                        der = false;
+                    }else{
+                        Debug.Log("IGUAL X");
+                        izq = false;
+                        der = false;
+                    }
+
                     player.GetComponent<Rigidbody2D>().velocity = new Vector2(whereToMove.x * moveSpeed, whereToMove.y * moveSpeed);
                     whereToMove2 = (new Vector2(sig2x,sig2y) - new Vector2(player2.transform.position.x,player2.transform.position.y)).normalized;
                     player2.GetComponent<Rigidbody2D>().velocity = new Vector2(whereToMove2.x * moveSpeed, whereToMove2.y * moveSpeed);
+                    distancia1 = (new Vector2(sig1x,sig1y) - new Vector2(player.transform.position.x,player.transform.position.y)).magnitude;
                     ronda = false;
                     toque = 0;
                 }
             }
+
+            if(arriba == true && abajo == false){
+                if(der == true && izq == false){
+                    ninja.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);
+                }else if(der == false && izq == true){
+                    ninja.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);
+                }else if(der == false && izq == false){
+                    ninja.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);
+                }
+                Animator.SetBool("JumpUpwards",true);
+                Animator.SetBool("Jumping",true);
+                Animator.SetBool("JumpDownwards",false);
+            }else if(arriba == false && abajo == true){
+                if(der == true && izq == false){
+                    ninja.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);
+                }else if(der == false && izq == true){
+                    ninja.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);
+                }else if(der == false && izq == false){
+                    ninja.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);
+                }
+                Animator.SetBool("JumpUpwards",false);
+                Animator.SetBool("JumpDownwards",true);
+            }else if(arriba == false && abajo == false){
+                if(der == true && izq == false){
+                    ninja.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);
+                }else if(der == false && izq == true){
+                    ninja.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);
+                }else if(der == false && izq == false){
+                    ninja.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);
+                }
+                Animator.SetBool("JumpUpwards",false);
+                Animator.SetBool("JumpDownwards",false);
+                if(currentDistanceToTouchPos > (distancia1/3)){
+                    Animator.SetBool("Jumping",true);
+                    Animator.SetBool("JumpUpwards",true);
+                    Animator.SetBool("Falling",false);
+                }else if(currentDistanceToTouchPos < (distancia1/3)){
+                    Animator.SetBool("Jumping",false);
+                    Animator.SetBool("JumpUpwards",false);
+                    Animator.SetBool("Falling",true);
+                }
+            }
+
+            
                             
             if(currentDistanceToTouchPos > previousDistanceToTouchPos){
                 isMoving = false;
-                player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;    
+                player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                Animator.SetBool("Falling",false);    
+                Animator.SetBool("Landed",true);    
+                Animator.SetBool("JumpUpwards",false);    
+                Animator.SetBool("JumpDownwards",false); 
+                ninja.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);   
             }
             if(currentDistanceToTouchPos2 > previousDistanceToTouchPos2){
                 isMoving2 = false;
@@ -173,7 +267,6 @@ public class GameManager : MonoBehaviour{
         
         
         void avanzar(int act, int sig, GameObject player,int jug){
-            Debug.Log(act + " " + sig + " " + player.name + " " + jug);
             if(grafo[act-1,sig-1] == 1){
                 if(sig != pos1 && sig!= pos2){
                     switch (sig){
@@ -234,11 +327,9 @@ public class GameManager : MonoBehaviour{
                             break;
                     }
                 }else{
-                    Debug.Log("pos1/pos2 == sig");
                     toque--;
                 }
             }else{
-                Debug.Log("grafo[act,sig] es 0");
                 toque--;
             }
         }

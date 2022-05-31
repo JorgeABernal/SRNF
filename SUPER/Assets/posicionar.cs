@@ -18,10 +18,8 @@ public class posicionar : MonoBehaviour{
     void Update()
     {
         ninja.transform.position = player.transform.position;
-        if(ninja.transform.position.x > 1){
+        if(ninja.transform.position.x > 3.5){
             ninja.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);
-        }else{
-            ninja.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);
         }
     }
 }

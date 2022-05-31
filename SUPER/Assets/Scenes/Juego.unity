@@ -544,6 +544,7 @@ MonoBehaviour:
   text1: {fileID: 1511969454}
   text2: {fileID: 2118287762}
   peleen: {fileID: 270914269}
+  ninja: {fileID: 1350148118}
 --- !u!4 &640357696
 Transform:
   m_ObjectHideFlags: 0
