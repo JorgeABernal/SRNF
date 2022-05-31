@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour{
 
@@ -343,7 +344,13 @@ public class GameManager : MonoBehaviour{
         }else{
             unoAtaca = true;
         }
-        new WaitForSeconds(1);
+        if(pos1 == pos2){
+            Invoke("changeScene",.6f);
+        }
         ronda = true;
+    }
+
+    void changeScene(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
