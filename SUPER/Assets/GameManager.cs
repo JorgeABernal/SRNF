@@ -18,8 +18,10 @@ public class GameManager : MonoBehaviour{
     public GameObject player2;
     public GameObject text1, text2,peleen;
     public GameObject ninja;
+    public GameObject ninja2;
 
     private Animator Animator;
+    private Animator Animator2;
 
     Touch touch,touch2;
     Vector2 touchPosition;
@@ -38,11 +40,17 @@ public class GameManager : MonoBehaviour{
     int posTemp1, posTemp2;
     int sig1x,sig1y,sig2x,sig2y;
     float distancia1;
+    float distancia2;
 
     bool arriba = false;
     bool abajo = false;
     bool izq = false;
     bool der = false;
+
+    bool arriba2 = false;
+    bool abajo2 = false;
+    bool izq2 = false;
+    bool der2 = false;
 
     // Start is called before the first frame update
     void Start()
@@ -55,11 +63,18 @@ public class GameManager : MonoBehaviour{
         text1.SetActive(false);
         peleen.SetActive(false);
         Animator = ninja.GetComponent<Animator>();
+        Animator2 = ninja2.GetComponent<Animator>();
         Animator.SetBool("Jumping",false);
         Animator.SetBool("Falling",false);
         Animator.SetBool("JumpUpwards",false);
         Animator.SetBool("JumpDownwards",false);
         Animator.SetBool("Landed",true);
+
+        Animator2.SetBool("Jumping",false);
+        Animator2.SetBool("Falling",false);
+        Animator2.SetBool("JumpUpwards",false);
+        Animator2.SetBool("JumpDownwards",false);
+        Animator2.SetBool("Landed",true);
     }
 
     // Update is called once per frame
@@ -86,6 +101,7 @@ public class GameManager : MonoBehaviour{
                     currentDistanceToTouchPos2 = 0;
                     isMoving = true;
                     Animator.SetBool("Landed",false);
+                    Animator2.SetBool("Landed",false);
                     isMoving2 = true;
                     whereToMove = (new Vector2(sig1x,sig1y) - new Vector2(player.transform.position.x,player.transform.position.y)).normalized;
                     if(sig1y - (int) player.transform.position.y < 0){
@@ -116,10 +132,42 @@ public class GameManager : MonoBehaviour{
                         der = false;
                     }
 
+                    //------------------------------------------------------------------------------
+
+                    if(sig2y - (int) player2.transform.position.y < 0){
+                        Debug.Log("ABAJO Y ");
+                        abajo2 = true;
+                        arriba2 = false;
+                    }else if(sig2y - (int) player2.transform.position.y > 0){
+                        Debug.Log("ARRIBA Y ");
+                        arriba2 = true;
+                        abajo2 = false;
+                    }else{
+                        Debug.Log("IGUAL Y");
+                        arriba2 = false;
+                        abajo2 = false;
+                    }
+
+                    if(sig2x - (int) player2.transform.position.x > 0){
+                        Debug.Log("DERECHA ");
+                        der2 = true;
+                        izq2 = false;
+                    }else if(sig2x - (int) player2.transform.position.x < 0){
+                        Debug.Log("IZQUIERDA ");
+                        izq2 = true;
+                        der2 = false;
+                    }else{
+                        Debug.Log("IGUAL X");
+                        izq2 = false;
+                        der2 = false;
+                    }
+
+
                     player.GetComponent<Rigidbody2D>().velocity = new Vector2(whereToMove.x * moveSpeed, whereToMove.y * moveSpeed);
                     whereToMove2 = (new Vector2(sig2x,sig2y) - new Vector2(player2.transform.position.x,player2.transform.position.y)).normalized;
                     player2.GetComponent<Rigidbody2D>().velocity = new Vector2(whereToMove2.x * moveSpeed, whereToMove2.y * moveSpeed);
                     distancia1 = (new Vector2(sig1x,sig1y) - new Vector2(player.transform.position.x,player.transform.position.y)).magnitude;
+                    distancia2 = (new Vector2(sig2x,sig2y) - new Vector2(player2.transform.position.x,player2.transform.position.y)).magnitude;
                     ronda = false;
                     toque = 0;
                 }
@@ -167,6 +215,52 @@ public class GameManager : MonoBehaviour{
                 }
             }
 
+
+
+            if(arriba2 == true && abajo2 == false){
+                if(der2 == true && izq2 == false){
+                    ninja2.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);
+                }else if(der2 == false && izq2 == true){
+                    ninja2.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);
+                }else if(der2 == false && izq2 == false){
+                    ninja2.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);
+                }
+                Animator2.SetBool("JumpUpwards",true);
+                Animator2.SetBool("Jumping",true);
+                Animator2.SetBool("JumpDownwards",false);
+            }else if(arriba2 == false && abajo2 == true){
+                if(der2 == true && izq2 == false){
+                    ninja2.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);
+                }else if(der2 == false && izq2 == true){
+                    ninja2.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);
+                }else if(der2 == false && izq2 == false){
+                    ninja2.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);
+                }
+                Animator2.SetBool("JumpUpwards",false);
+                Animator2.SetBool("JumpDownwards",true);
+            }else if(arriba2 == false && abajo2 == false){
+                if(der2 == true && izq2 == false){
+                    ninja2.transform.localScale = new Vector3(4.654349f,4.654349f,4.654349f);
+                }else if(der2 == false && izq2 == true){
+                    ninja2.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);
+                }else if(der2 == false && izq2 == false){
+                    ninja2.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);
+                }
+                Animator2.SetBool("JumpUpwards",false);
+                Animator2.SetBool("JumpDownwards",false);
+                if(currentDistanceToTouchPos2 > (distancia2/3)){
+                    Animator2.SetBool("Jumping",true);
+                    Animator2.SetBool("JumpUpwards",true);
+                    Animator2.SetBool("Falling",false);
+                }else if(currentDistanceToTouchPos2 < (distancia2/3)){
+                    Animator2.SetBool("Jumping",false);
+                    Animator2.SetBool("JumpUpwards",false);
+                    Animator2.SetBool("Falling",true);
+                }
+            }
+
+
+
             
                             
             if(currentDistanceToTouchPos > previousDistanceToTouchPos){
@@ -180,8 +274,13 @@ public class GameManager : MonoBehaviour{
             }
             if(currentDistanceToTouchPos2 > previousDistanceToTouchPos2){
                 isMoving2 = false;
-                player2.GetComponent<Rigidbody2D>().velocity = Vector2.zero;    
-            }
+                player2.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                Animator2.SetBool("Falling",false);    
+                Animator2.SetBool("Landed",true);    
+                Animator2.SetBool("JumpUpwards",false);    
+                Animator2.SetBool("JumpDownwards",false); 
+                ninja2.transform.localScale = new Vector3(-4.654349f,4.654349f,4.654349f);   
+            }    
 
             if(isMoving){
                 previousDistanceToTouchPos = (new Vector2(sig1x,sig1y) - new Vector2(player.transform.position.x,player.transform.position.y)).magnitude;
@@ -345,7 +444,7 @@ public class GameManager : MonoBehaviour{
             unoAtaca = true;
         }
         if(pos1 == pos2){
-            Invoke("changeScene",.6f);
+            Invoke("changeScene",.5f);
         }
         ronda = true;
     }
